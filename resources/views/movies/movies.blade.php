@@ -18,8 +18,7 @@
                 }else{
                     $video_title="※一時的な情報制限中です";
                 }
-            
-        }
+
         
         @endphp
 
@@ -64,3 +63,5 @@
 </div>
 
 {{ $movies->render('pagination::bootstrap-4') }}
+
+
