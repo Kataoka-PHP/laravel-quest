@@ -1,6 +1,8 @@
 <div class="movies row mt-5 text-center">
     
     @foreach ($movies as $key => $movie)
+    
+        @php
 
         if($movie){
         
