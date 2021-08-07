@@ -30,6 +30,9 @@ Route::group(['prefix' => 'users/{id}'], function () {
     Route::get('followings', 'UsersController@followings')->name('followings');
     Route::get('followers', 'UsersController@followers')->name('followers');
     });
+    
+//RESTfulAPI追加
+Route::resource('rest','RestappController', ['only' => ['index', 'show', 'create', 'store', 'destroy']]);
 
 //ログインしているユーザのみが、名前の変更が可能
 Route::group(['middleware' => 'auth'], function () {
