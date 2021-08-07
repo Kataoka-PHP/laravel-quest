@@ -22,10 +22,25 @@ Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login')->name('login.post');
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
-//ログインしていないユーザは、一覧表示のみ可能
+//ログインしていないユーザは、一覧の閲覧のみ可
 Route::resource('users', 'UsersController', ['only' => ['show']]);
 
-//ログインしたユーザのみがcreate処理、store処理、destroy処理を実行できるようにする
+//ログインしていないユーザは、誰をフォローしているか、誰にフォローされているかを閲覧可能
+Route::group(['prefix' => 'users/{id}'], function () {
+    Route::get('followings', 'UsersController@followings')->name('followings');
+    Route::get('followers', 'UsersController@followers')->name('followers');
+    });
+
+//ログインしているユーザのみが、名前の変更が可能
 Route::group(['middleware' => 'auth'], function () {
+    Route::put('users', 'UsersController@rename')->name('rename');
+    
+    //ログインしているユーザのみが、フォロー、アンフォローが可能
+    Route::group(['prefix' => 'users/{id}'], function () {
+        Route::post('follow', 'UserFollowController@store')->name('follow');
+        Route::delete('unfollow', 'UserFollowController@destroy')->name('unfollow');
+    });
+    
+    //ログインしているユーザのみが、create処理、store処理、destroy処理が可能
     Route::resource('movies', 'MoviesController', ['only' => ['create', 'store', 'destroy']]);
 });

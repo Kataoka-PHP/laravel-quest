@@ -23,7 +23,6 @@
                 <div class="movie text-left d-inline-block">
 
                     ＠{!! link_to_route('users.show',$user->name,['id'=>$user->id]) !!}
-                       <!--↑追記-->
 
                     <div>
                         @if($movie)
@@ -35,9 +34,11 @@
                     
                     <p>
                         @if(isset($movie->comment))
-                            {{ $movie->comment }}
+                               {{ $movie->comment }}
                         @endif
                     </p>
+                    
+                        @include('follow.follow_button',['user'=>$user])
 
                 </div>
                 
@@ -47,4 +48,4 @@
 
 </div>
 
-{{ $users->render('pagination::bootstrap-4') }}
+{{ $users->links('pagination::bootstrap-4') }}
